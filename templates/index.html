@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='edu.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 50%;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 42px;
+            color: rgb(23, 4, 142);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        select {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 150px;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admission Predictor</h2>
+        <form id="admissionForm" action="/predict" method="post">
+            <label for="gre">GRE Score (out of 340):</label>
+            <input type="text" id="gre" name="gre" pattern="\d+(\.\d{1,2})?" title="Enter a valid decimal number" required><br><br>
+
+            <label for="toefl">TOEFL Score (out of 120):</label>
+            <input type="text" id="toefl" name="toefl" pattern="\d+(\.\d{1,2})?" title="Enter a valid decimal number" required><br><br>
+
+            <label for="univ_rating">University Rating (1.0 to 5.0):</label>
+            <input type="text" id="univ_rating" name="univ_rating" pattern="^[1-5](\.\d{1,2})?$" title="Enter a valid decimal number between 1.0 and 5.0" required><br><br>
+
+            <label for="sop">Statement of Purpose (1.0 to 5.0):</label>
+            <input type="text" id="sop" name="sop" pattern="^[1-5](\.\d{1,2})?$" title="Enter a valid decimal number between 1.0 and 5.0" required><br><br>
+
+            <label for="lor">Letter of Recommendation Strength (1.0 to 5.0):</label>
+            <input type="text" id="lor" name="lor" pattern="^[1-5](\.\d{1,2})?$" title="Enter a valid decimal number between 1.0 and 5.0" required><br><br>
+
+            <label for="cgpa">CGPA (out of 10):</label>
+            <input type="number" id="cgpa" name="cgpa" step="0.01" required><br><br>
+
+            <label for="research_exp">Research Experience:</label><br>
+            <label>
+                <input type="radio" id="research_yes" name="research_exp" value="1" required>
+                Yes
+            </label>
+            <label>
+                <input type="radio" id="research_no" name="research_exp" value="0">
+                No
+            </label><br><br>
+
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction %}
+        <div style="text-align: center; margin-top: 20px;">
+            <h3>Predicted Admission Chance:</h3>
+            <p>{{ prediction }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
